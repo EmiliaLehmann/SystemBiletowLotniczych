@@ -4,9 +4,32 @@ using System.Text;
 
 namespace SystemBiletowLotniczych
 {
-    public class BiletKrajowy: Bilet
+    public class BiletKrajowy : Bilet
     {
+        private double stawkaPodatkowa = 0.08;
 
-    
+        public BiletKrajowy() : base()
+        {
+        }
+
+        public BiletKrajowy( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, DateTime dataRezerwacji, string miastoWylotu, string miastoPrzylotu)
+            : base( imiePasazera, nazwiskoPasazera, cena, dataWylotu, godzinaWylotu, klasa, miastoPrzylotu)
+        {
+        }
+
+        public double StawkaPodatkowa { get => stawkaPodatkowa; set => stawkaPodatkowa = value; }
+
+        public override double ObliczCeneKoncowa()
+        {
+            double cenabazowa = base.ObliczCeneKoncowa();
+
+            return cenabazowa * (1 + StawkaPodatkowa);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $", StawkaPodatkowa: {StawkaPodatkowa:P}";
+
+        }
     }
 }
