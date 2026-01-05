@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SystemBiletowLotniczych
 {
-    internal class BiletMiedzykontynentalny
+    public class BiletMiedzykontynentalny
     {
     }
 }

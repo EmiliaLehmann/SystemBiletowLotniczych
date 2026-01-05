@@ -36,15 +36,7 @@ namespace SystemBiletowLotniczych
             GodzinaWylotu = TimeOnly.FromDateTime(DateTime.Now);
         }
 
-        //public Bilet(string numerBiletu, string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu)
-        //{
-        //    NumerBiletu = numerBiletu;
-        //    ImiePasazera = imiePasazera;
-        //    NazwiskoPasazera = nazwiskoPasazera;
-        //    Cena = cena;          
-        //    DataWylotu = dataWylotu;
-        //    GodzinaWylotu = godzinaWylotu;
-        //}
+       
 
 
         public virtual double PobierzMnoznikSezonowy()
@@ -56,8 +48,8 @@ namespace SystemBiletowLotniczych
             else if (miesiac == 12)
             {
                 if (dzien >= 23 && dzien <= 26) mnoznik = 1.8; 
-                else if (dzien == 22 || dzien == 27) mnoznik = 1.6; 
-                else if (dzien == 31) mnoznik = 1.7; 
+                else if (dzien == 22 || dzien == 27) mnoznik = 1.3; 
+                else if (dzien == 31) mnoznik = 1.6; 
             }
 
             return mnoznik;
