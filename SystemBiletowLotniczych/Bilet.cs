@@ -5,10 +5,10 @@ using System.Text;
 namespace SystemBiletowLotniczych
 {
     public enum EnumKlasa {Ekonomiczna, Biznesowa, Pierwsza};
-    public abstract class Bilet
+    public abstract class Bilet : IComparable<Bilet>, IEquatable<Bilet>
     {
         private double cena;
-        private string numerBiletu;
+        private string numerLotu;
         private string imiePasazera;
         private string nazwiskoPasazera;
         private DateTime DataWylotu;
@@ -17,10 +17,8 @@ namespace SystemBiletowLotniczych
         private DateTime dataRezerwacji = DateTime.Now;
         private string MiastoWylotu= "Kraków";
         private string MiastoPrzylotu;
-        private int IdBiletu;
-
-
-        public string NumerBiletu { get => numerBiletu; set => numerBiletu = value; }
+        private static Dictionary<string, int> licznikiMiejsc = new Dictionary<string, int>();
+        private int numerMiejsca;
         public string ImiePasazera { get => imiePasazera; set => imiePasazera = value; }
         public string NazwiskoPasazera { get => nazwiskoPasazera; set => nazwiskoPasazera = value; }
         public DateTime DataWylotu1 { get => DataWylotu; set
@@ -36,11 +34,26 @@ namespace SystemBiletowLotniczych
         public DateTime DataRezerwacji { get => dataRezerwacji; set => dataRezerwacji = value; }
         public string MiastoWylotu1 { get => MiastoWylotu; set => MiastoWylotu = value; }
         public string MiastoPrzylotu1 { get => MiastoPrzylotu; set => MiastoPrzylotu = value; }
-        public int IdBiletu1 { get => IdBiletu; set => IdBiletu = value; }
+        public string NumerLotu {
+            get
+            {
+                return $"{MiastoWylotu.Substring(0, 3).ToUpper()}-" +
+                       $"{MiastoPrzylotu.Substring(0, 3).ToUpper()}-" +
+                       $"{DataWylotu:yyyyMMdd}-" +
+                       $"{GodzinaWylotu:HHmm}";
+            }
+        }
+
+
+     
+        public int NumerMiejsca => numerMiejsca;
+
+        public string PelnyNumerBiletu => $"{NumerLotu}-{NumerMiejsca:D3}";
+
+
 
         public Bilet()
         {
-            NumerBiletu = "000000";
             ImiePasazera = string.Empty;
             NazwiskoPasazera = string.Empty;
             Cena = 0;           
@@ -48,13 +61,11 @@ namespace SystemBiletowLotniczych
             Klasa = EnumKlasa.Ekonomiczna;
             DataRezerwacji = DateTime.Now;
             MiastoPrzylotu = string.Empty;
-            IdBiletu = 0;
 
         }
 
-       public Bilet(string numerBiletu, string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu)
+       public Bilet( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu)
         {
-            NumerBiletu = GenerujNumer();
             ImiePasazera = imiePasazera;
             NazwiskoPasazera = nazwiskoPasazera;
             Cena = cena;          
@@ -62,16 +73,18 @@ namespace SystemBiletowLotniczych
             GodzinaWylotu = godzinaWylotu;
             Klasa = klasa;
             MiastoPrzylotu = miastoPrzylotu;
-            IdBiletu++;
+            string kluczLotu = this.numerLotu;
+
+            if (!licznikiMiejsc.ContainsKey(kluczLotu))
+            {
+                licznikiMiejsc[kluczLotu] = 0;
+            }
+
+            licznikiMiejsc[kluczLotu]++;
+            numerMiejsca = licznikiMiejsc[kluczLotu];
         }
 
-        private string GenerujNumer()
-        {
-            string numer = string.Empty;
-            numer = $"{MiastoPrzylotu.Substring(0,2)}-{Klasa.ToString().Substring(0, 3).ToUpper()}-{DataWylotu:dd - MM - yyyy}-{IdBiletu.ToString("D3")}";
-            return numer;
-        }
-
+       
 
         public virtual double MnoznikSezonowy()
         {
@@ -107,7 +120,8 @@ namespace SystemBiletowLotniczych
 
         public override string ToString()
         {
-            return $"Numer biletu: {NumerBiletu}\n" +
+            return $"Numer lotu: {NumerLotu}\n" +
+                   $"Numer miejsca: {NumerMiejsca}\n" +
                    $"Imię pasażera: {ImiePasazera}\n" +
                    $"Nazwisko pasażera: {NazwiskoPasazera}\n" +
                    $"Data wylotu: {DataWylotu:dd-MM-yyyy}\n" +
@@ -117,6 +131,19 @@ namespace SystemBiletowLotniczych
                    $"Miasto wylotu: {MiastoWylotu}\n" +
                    $"Miasto przylotu: {MiastoPrzylotu}\n" +
                    $"Cena Biletu: {ObliczCeneKoncowa():C}\n";
+        }
+
+        public int CompareTo(Bilet? other)
+        {
+            if (other == null)
+                return 1;
+            return this.ObliczCeneKoncowa().CompareTo(other.ObliczCeneKoncowa());
+        }
+
+        public bool Equals(Bilet? other)
+        {
+            if (other == null) return false;
+            return this.NumerLotu == other.NumerLotu;
         }
     }
 }
