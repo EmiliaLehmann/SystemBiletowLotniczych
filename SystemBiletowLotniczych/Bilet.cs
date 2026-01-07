@@ -19,6 +19,8 @@ namespace SystemBiletowLotniczych
         private string MiastoPrzylotu;
         private static Dictionary<string, int> licznikiMiejsc = new Dictionary<string, int>();
         private int numerMiejsca;
+        private int MAX_MIEJSC = 180;
+
         public string ImiePasazera { get => imiePasazera; set => imiePasazera = value; }
         public string NazwiskoPasazera { get => nazwiskoPasazera; set => nazwiskoPasazera = value; }
         public DateTime DataWylotu1 { get => DataWylotu; set
@@ -48,7 +50,6 @@ namespace SystemBiletowLotniczych
      
         public int NumerMiejsca => numerMiejsca;
 
-        public string PelnyNumerBiletu => $"{NumerLotu}-{NumerMiejsca:D3}";
 
 
 
@@ -79,12 +80,17 @@ namespace SystemBiletowLotniczych
             {
                 licznikiMiejsc[kluczLotu] = 0;
             }
+            if (licznikiMiejsc[kluczLotu] >= MAX_MIEJSC)
+            {
+                throw new BrakMiejscException($"Błąd: Brak wolnych miejsc na lot {kluczLotu}. Maksymalna liczba miejsc to {MAX_MIEJSC}.");
+            }
 
             licznikiMiejsc[kluczLotu]++;
             numerMiejsca = licznikiMiejsc[kluczLotu];
         }
 
-       
+               public string PelnyNumerBiletu => $"{NumerLotu}-{NumerMiejsca:D3}";
+
 
         public virtual double MnoznikSezonowy()
         {
@@ -120,7 +126,9 @@ namespace SystemBiletowLotniczych
 
         public override string ToString()
         {
-            return $"Numer lotu: {NumerLotu}\n" +
+            return $"Numer bilety: {PelnyNumerBiletu}\n" +
+             $"===============================================\n" +
+             $"Numer lotu: {NumerLotu}\n" +
                    $"Numer miejsca: {NumerMiejsca}\n" +
                    $"Imię pasażera: {ImiePasazera}\n" +
                    $"Nazwisko pasażera: {NazwiskoPasazera}\n" +

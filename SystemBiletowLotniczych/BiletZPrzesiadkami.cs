@@ -19,10 +19,7 @@ namespace SystemBiletowLotniczych
             List<Bilet> EtapyPodrozy = new List<Bilet>();
         } 
 
-       
-      
-           
-          
+     
             public new double ObliczCeneKoncowa()
             {
                 double suma = 0;
