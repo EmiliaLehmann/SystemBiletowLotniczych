@@ -13,7 +13,7 @@ namespace SystemBiletowLotniczych
         }
 
         public BiletKrajowy( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, DateTime dataRezerwacji, string miastoWylotu, string miastoPrzylotu)
-            : base( imiePasazera, nazwiskoPasazera, cena, dataWylotu, godzinaWylotu, klasa, miastoPrzylotu)
+            : base( imiePasazera, nazwiskoPasazera, cena, dataWylotu, godzinaWylotu, klasa, miastoPrzylotu, miastoWylotu)
         {
         }
 

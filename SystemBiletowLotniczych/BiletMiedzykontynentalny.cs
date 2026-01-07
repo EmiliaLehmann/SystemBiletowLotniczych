@@ -18,8 +18,8 @@ namespace SystemBiletowLotniczych
             WizaWymagana = false;
         }
 
-        public BiletMiedzykontynentalny( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu, bool wizaWymagana, double dodatkowaOplataZapaliwo)
-            : base( imiePasazera, nazwiskoPasazera, cena, dataWylotu, godzinaWylotu, klasa, miastoPrzylotu)
+        public BiletMiedzykontynentalny( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu, string miastoWylotu, bool wizaWymagana, double dodatkowaOplataZapaliwo)
+            : base( imiePasazera, nazwiskoPasazera, cena, dataWylotu, godzinaWylotu, klasa, miastoPrzylotu,  miastoWylotu)
         {
             WizaWymagana = wizaWymagana;
         }

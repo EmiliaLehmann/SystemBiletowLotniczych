@@ -15,7 +15,7 @@ namespace SystemBiletowLotniczych
         private TimeOnly godzinaWylotu;
         private  EnumKlasa klasa;
         private DateTime dataRezerwacji = DateTime.Now;
-        private string MiastoWylotu= "Kraków";
+        private string MiastoWylotu;
         private string MiastoPrzylotu;
         private static Dictionary<string, int> licznikiMiejsc = new Dictionary<string, int>();
         private int numerMiejsca;
@@ -62,10 +62,11 @@ namespace SystemBiletowLotniczych
             Klasa = EnumKlasa.Ekonomiczna;
             DataRezerwacji = DateTime.Now;
             MiastoPrzylotu = string.Empty;
+            MiastoWylotu = "Kraków";
 
         }
 
-       public Bilet( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu)
+       public Bilet( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu, string miastoWylotu)
         {
             ImiePasazera = imiePasazera;
             NazwiskoPasazera = nazwiskoPasazera;
@@ -74,6 +75,7 @@ namespace SystemBiletowLotniczych
             GodzinaWylotu = godzinaWylotu;
             Klasa = klasa;
             MiastoPrzylotu = miastoPrzylotu;
+            MiastoWylotu = miastoWylotu;
             string kluczLotu = this.numerLotu;
 
             if (!licznikiMiejsc.ContainsKey(kluczLotu))
