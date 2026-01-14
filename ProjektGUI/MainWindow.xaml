@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektGUI"
         mc:Ignorable="d"
-        Title="System Biletów" Height="450" Width="800">
+        Title="System Biletów" Height="600" Width="800">
     <Grid Margin="10">
         <TextBlock Text="Imię:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0"/>
         <TextBox x:Name="txtImie" Width="150" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,10,0,0"/>
@@ -16,9 +16,31 @@
         <TextBlock Text="Klasa:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,80,0,0"/>
         <ComboBox x:Name="comboKlasa" Width="150" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,80,0,0"/>
 
-        <Button Content="Dodaj Bilet" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,120,0,0"
+        <TextBlock Text="Typ biletu:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,115,0,0"/>
+        <ComboBox x:Name="comboTypBiletu" Width="150" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,115,0,0"
+                  SelectionChanged="comboTypBiletu_SelectionChanged"/>
+
+        <CheckBox x:Name="chkWiza" Content="Wiza wymagana"
+                  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300,115,0,0"
+                  Visibility="Collapsed"/>
+
+        <TextBlock Text="Podatek:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,150,0,0"
+                   x:Name="lblPodatek" Visibility="Collapsed"/>
+        <TextBox x:Name="txtPodatek" Width="50" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,150,0,0"
+                 Visibility="Collapsed" Text="8"/>
+
+        <TextBlock Text="Wybierz posiłki:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,185,0,0"
+                   x:Name="lblPosilki" Visibility="Collapsed"/>
+        <CheckBox x:Name="chkPosilek1" Content="Posiłek 1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,185,0,0"
+                  Visibility="Collapsed"/>
+        <CheckBox x:Name="chkPosilek2" Content="Posiłek 2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="200,185,0,0"
+                  Visibility="Collapsed"/>
+        <CheckBox x:Name="chkPosilek3" Content="Posiłek 3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300,185,0,0"
+                  Visibility="Collapsed"/>
+
+        <Button Content="Dodaj Bilet" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,225,0,0"
                 Click="btnDodajBilet_Click"/>
 
-        <ListBox x:Name="listBoxBilety" Width="700" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,170,0,0"/>
+        <ListBox x:Name="listBoxBilety" Width="700" Height="300" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,270,0,0"/>
     </Grid>
 </Window>
