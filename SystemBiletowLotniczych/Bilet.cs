@@ -76,7 +76,7 @@ namespace SystemBiletowLotniczych
             Klasa = klasa;
             MiastoPrzylotu = miastoPrzylotu;
             MiastoWylotu = miastoWylotu;
-            string kluczLotu = this.numerLotu;
+            string kluczLotu = this.NumerLotu;
 
             if (!licznikiMiejsc.ContainsKey(kluczLotu))
             {
@@ -153,7 +153,7 @@ namespace SystemBiletowLotniczych
         public bool Equals(Bilet? other)
         {
             if (other == null) return false;
-            return this.NumerLotu == other.NumerLotu;
+            return this.NumerLotu == other.NumerLotu;                          //czemu tu NumerLotu,  nie lepiej PelnyNumerBiletu ???
         }
     }
 }
