@@ -22,8 +22,8 @@ namespace SystemBiletowLotniczychTests
             bilet.Cena = 100;
             bilet.DataWylotu1 = dataWylotu;
             bilet.GodzinaWylotu = godzinaWylotu;
-            bilet.MiastoWylotu1 = "Warszawa";
-            bilet.MiastoPrzylotu1 = "Kraków";
+            bilet.MiastoWylotu = "Warszawa";
+            bilet.MiastoPrzylotu = "Kraków";
 
             // Assert
             Assert.AreEqual("Jan", bilet.ImiePasazera);
@@ -31,8 +31,8 @@ namespace SystemBiletowLotniczychTests
             Assert.AreEqual(100, bilet.Cena);
             Assert.AreEqual(dataWylotu, bilet.DataWylotu1);
             Assert.AreEqual(godzinaWylotu, bilet.GodzinaWylotu);
-            Assert.AreEqual("Warszawa", bilet.MiastoWylotu1);
-            Assert.AreEqual("Kraków", bilet.MiastoPrzylotu1);
+            Assert.AreEqual("Warszawa", bilet.MiastoWylotu);
+            Assert.AreEqual("Kraków", bilet.MiastoPrzylotu);
         }
 
         [TestMethod]
