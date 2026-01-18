@@ -55,7 +55,7 @@ namespace SystemBiletowLotniczych
             get => miastoWylotu;
             set
             {
-                if (value.Length < 3) throw new Ble
+                if (value.Length < 3) throw new BledneMiastoException("Miasto ma za krótką nazwę");
                 miastoWylotu = value;
             }
         }
@@ -65,7 +65,7 @@ namespace SystemBiletowLotniczych
             get => miastoPrzylotu;
             set
             {
-                if (value.Length < 3) throw new Exception("Miasto ma za krótką nazwę");
+                if (value.Length < 3) throw new BledneMiastoException("Miasto ma za krótką nazwę");
                 miastoPrzylotu = value;
             }
         }
