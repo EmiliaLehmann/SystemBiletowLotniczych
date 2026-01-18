@@ -20,7 +20,7 @@ namespace SystemBiletowLotniczychTests
             bilet.ImiePasazera = "Jan";
             bilet.NazwiskoPasazera = "Kowalski";
             bilet.Cena = 100;
-            bilet.DataWylotu1 = dataWylotu;
+            bilet.DataWylotu = dataWylotu;
             bilet.GodzinaWylotu = godzinaWylotu;
             bilet.MiastoWylotu = "Warszawa";
             bilet.MiastoPrzylotu = "Kraków";
@@ -29,7 +29,7 @@ namespace SystemBiletowLotniczychTests
             Assert.AreEqual("Jan", bilet.ImiePasazera);
             Assert.AreEqual("Kowalski", bilet.NazwiskoPasazera);
             Assert.AreEqual(100, bilet.Cena);
-            Assert.AreEqual(dataWylotu, bilet.DataWylotu1);
+            Assert.AreEqual(dataWylotu, bilet.DataWylotu);
             Assert.AreEqual(godzinaWylotu, bilet.GodzinaWylotu);
             Assert.AreEqual("Warszawa", bilet.MiastoWylotu);
             Assert.AreEqual("Kraków", bilet.MiastoPrzylotu);
@@ -44,7 +44,7 @@ namespace SystemBiletowLotniczychTests
             var przeszlaData = DateTime.Now.AddDays(-1);
 
             // Act
-            bilet.DataWylotu1 = przeszlaData;
+            bilet.DataWylotu = przeszlaData;
         }
 
         [TestMethod]
