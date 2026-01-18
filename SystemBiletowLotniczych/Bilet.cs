@@ -16,7 +16,7 @@ namespace SystemBiletowLotniczych
         private string numerLotu;
         private string imiePasazera;
         private string nazwiskoPasazera;
-        private DateTime DataWylotu;
+        private DateTime dataWylotu;
         private TimeOnly godzinaWylotu;
         private  EnumKlasa klasa;
         private DateTime dataRezerwacji = DateTime.Now;
@@ -30,11 +30,11 @@ namespace SystemBiletowLotniczych
 
         public string ImiePasazera { get => imiePasazera; set => imiePasazera = value; }
         public string NazwiskoPasazera { get => nazwiskoPasazera; set => nazwiskoPasazera = value; }
-        public DateTime DataWylotu1 { get => DataWylotu; set
+        public DateTime DataWylotu { get => dataWylotu; set
             {
                 if (value < DateTime.Now)
                     throw new BlednaDataLotuException("Data lotu musi być w przyszłości!");
-                DataWylotu = value;
+                dataWylotu = value;
             }
         }
         [XmlIgnore]    //dajemy to bo XML nie umie ladnie wczytac TimeOnly
@@ -55,7 +55,7 @@ namespace SystemBiletowLotniczych
             get => miastoWylotu;
             set
             {
-                if (value.Length < 3) throw new Exception("Miasto ma za krótką nazwę");
+                if (value.Length < 3) throw new Ble
                 miastoWylotu = value;
             }
         }
@@ -187,7 +187,7 @@ namespace SystemBiletowLotniczych
         public bool Equals(Bilet? other)
         {
             if (other == null) return false;
-            return this.NumerLotu == other.NumerLotu;                          //czemu tu NumerLotu,  nie lepiej PelnyNumerBiletu ???
+            return this.PelnyNumerBiletu == other.PelnyNumerBiletu;                      //uwaga Emilia zmieniam NumerLotu na PelnyNumerBiletu
         }
 
         public object Clone()
