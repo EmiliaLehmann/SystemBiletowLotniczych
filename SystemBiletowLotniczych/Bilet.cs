@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using System.ComponentModel.DataAnnotations;        //dla [Key]
+using System.ComponentModel.DataAnnotations.Schema; //dla [NotMapped]
 
 namespace SystemBiletowLotniczych
 {
@@ -28,6 +30,13 @@ namespace SystemBiletowLotniczych
 
         public static List<Bilet> kupioneBilety = new List<Bilet>();     //mamy polimorfizm wiec lista "zbiera" wszystkie bilety dziedziczace po bilet
 
+
+
+
+        //entity framework robi kolumne dla kazdej publicznej wlasciwosci ktora ma get i set
+        [Key]
+        public int BiletId { get; set; }
+
         public string ImiePasazera { get => imiePasazera; set => imiePasazera = value; }
         public string NazwiskoPasazera { get => nazwiskoPasazera; set => nazwiskoPasazera = value; }
         public DateTime DataWylotu { get => dataWylotu; set
@@ -37,9 +46,13 @@ namespace SystemBiletowLotniczych
                 dataWylotu = value;
             }
         }
+
         [XmlIgnore]    //dajemy to bo XML nie umie ladnie wczytac TimeOnly
+        [NotMapped]   // nie uwzgledniamy do BazyDanych
         public TimeOnly GodzinaWylotu { get => godzinaWylotu; set => godzinaWylotu = value; }
+        
         [XmlElement("GodzinaWylotu")]   // wlasciwosc bedzie "udawac" nasza godzine
+        [NotMapped]
         public string GodzinaWylotu2
         {
             get => godzinaWylotu.ToString("HH:mm");
@@ -85,6 +98,9 @@ namespace SystemBiletowLotniczych
         public int NumerMiejsca { get => numerMiejsca; set => numerMiejsca = value; }
 
 
+
+
+
         public Bilet()
         {
             ImiePasazera = string.Empty;
@@ -128,6 +144,9 @@ namespace SystemBiletowLotniczych
                public string PelnyNumerBiletu => $"{NumerLotu}-{NumerMiejsca:D3}";
 
 
+
+
+        #region MetodyWirtualne
         public virtual double MnoznikSezonowy()
         {
             double mnoznik = 1.0;
@@ -159,6 +178,8 @@ namespace SystemBiletowLotniczych
         {
             return cena* MnoznikKlasy() * MnoznikSezonowy() ;
         }
+
+        #endregion MetodyWirtualne
 
         public override string ToString()
         {
@@ -306,8 +327,30 @@ namespace SystemBiletowLotniczych
             }
         }
 
-        
+        public void SaveToDB()
+        {
+            using (var db = new BiletDbContext())
+            {
+                db.Bilets.Add(this);
+                db.SaveChanges();
+            }
+        }
 
+
+
+        public delegate double DelegatZnizka(double jakasZnizka);    // przyjmuje double i zwracam double (kazda metoda ktora tu przyjme ma miec taki ksztalt)
+
+        public void ZastosujRabat(DelegatZnizka przyznanieZnizki)   //to przyznanieZnizki to nasza metoda konkretna
+        {
+            this.Cena = przyznanieZnizki(this.Cena);
+        }
+                    //np takie byloby wywolanie    produkt.ZastosujRabat(Znizki.Student);
+    }
+
+    public static class Znizki           //robie sobie statyczna zeby nie tworzyc obiektu a latwo wziac sobie wzor                             
+    {
+        public static double Student(double c) => c * 0.5;
+        public static double Senior(double c) => c * 0.7;
     }
 
 }
