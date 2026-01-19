@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SystemBiletowLotniczych.Bilet">
+    <Position X="9.25" Y="1" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="SystemBiletowLotniczych.Bilet.DelegatZnizka" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Bilet.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>oEAQAKRAQBEAAEYvgAASAiEgAEAwgAIAAECGgARAAhg=</HashCode>
+      <FileName>Bilet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Klasa" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemBiletowLotniczych.BiletKrajowy">
+    <Position X="11.75" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAEAAAAAAAAAAAQAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>BiletKrajowy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemBiletowLotniczych.BiletMiedzykontynentalny">
+    <Position X="4.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAABAAEAAQAAAgAAAAYAAAABIAAAAAAAAA=</HashCode>
+      <FileName>BiletMiedzykontynentalny.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemBiletowLotniczych.BiletMiedzykrajowy">
+    <Position X="7" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAQAABAAAAAQAAAAAA=</HashCode>
+      <FileName>BiletMiedzykrajowy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemBiletowLotniczych.BiletZPrzesiadkami">
+    <Position X="14" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAAACAAAACAAQAAAAAAAAAAAAUAAAAAAAAACAABAA=</HashCode>
+      <FileName>BiletZPrzesiadkami.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SystemBiletowLotniczych.IUslugowy">
+    <Position X="2.75" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>IUslugowy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SystemBiletowLotniczych.EnumKlasa">
+    <Position X="12" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAACAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Bilet.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

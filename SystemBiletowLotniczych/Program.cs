@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace SystemBiletowLotniczych
 {
     internal class Program
@@ -27,9 +28,10 @@ namespace SystemBiletowLotniczych
             Bilet.kupioneBilety.Sort(new BiletPoDacieComparer());
             Bilet.wyswietlKupioneBilety();
             */
+
+            //BiletKrajowy bk1 = new BiletKrajowy("Olga", "Redwan", 250, new DateTime(2026, 12, 12), new TimeOnly(15, 20), EnumKlasa.Ekonomiczna, DateTime.Now, "Kopenhaga", "Krakow");
+            //bk1.SaveToDB();
             
-
-
         }
     }
 }
