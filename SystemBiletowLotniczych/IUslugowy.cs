@@ -11,6 +11,4 @@ namespace SystemBiletowLotniczych
         void DodajPosilek(string nazwaPosilku);
         void WyswietlUslugi();
     }
-
-
 }

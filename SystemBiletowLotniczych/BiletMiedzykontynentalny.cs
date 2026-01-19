@@ -48,7 +48,7 @@ namespace SystemBiletowLotniczych
 
         public void WyswietlUslugi()
         {
-            Console.WriteLine("Dodatkowe posiłki: " + string.Join(", ", wybranePosilki));
+            Console.WriteLine("Dodatkowe posiłki: " + string.Join(", ", wybranePosilki));                       //zostawiasz z string.Join ? czy zmieniasz na foreach jak na zajeciach?
         }
     }
 }
