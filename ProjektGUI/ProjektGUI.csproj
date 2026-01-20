@@ -9,7 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="airplane.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SystemBiletowLotniczych\SystemBiletowLotniczych.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="airplane.gif" />
   </ItemGroup>
 
 </Project>
