@@ -16,7 +16,7 @@ namespace SystemBiletowLotniczych
 
         public BiletZPrzesiadkami() : base()
         {
-            List<Bilet> EtapyPodrozy = new List<Bilet>();
+            EtapyPodrozy = new List<Bilet>();
         } 
 
      
