@@ -32,19 +32,11 @@ namespace ProjektGUI
 
         private void comboTypBiletu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lblPodatek.Visibility = Visibility.Collapsed;
-            txtPodatek.Visibility = Visibility.Collapsed;
             chkWiza.Visibility = Visibility.Collapsed;
             panelPosilki.Visibility = Visibility.Collapsed;
 
             string typ = comboTypBiletu.SelectedItem?.ToString() ?? "";
-
-            if (typ == "Krajowy")
-            {
-                lblPodatek.Visibility = Visibility.Visible;
-                txtPodatek.Visibility = Visibility.Visible;
-            }
-            else if (typ == "Międzykontynentalny")
+            if (typ == "Międzykontynentalny")
             {
                 chkWiza.Visibility = Visibility.Visible;
                 panelPosilki.Visibility = Visibility.Visible;
@@ -72,13 +64,9 @@ namespace ProjektGUI
                 switch (comboTypBiletu.SelectedItem.ToString())
                 {
                     case "Krajowy":
-                        double podatek = double.Parse(txtPodatek.Text);
                         nowyBilet = new BiletKrajowy(imie, nazwisko, cenaBazowa,
                             data, godzina, klasa, DateTime.Now,
-                            miastoWylotu, miastoPrzylotu)
-                        {
-                            StawkaPodatkowa = podatek
-                        };
+                            miastoWylotu, miastoPrzylotu);
                         break;
 
                     case "Międzykrajowy":
@@ -110,6 +98,7 @@ namespace ProjektGUI
                 MessageBox.Show(ex.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        
 
         // 2 zakładka
 
@@ -183,6 +172,62 @@ namespace ProjektGUI
             catch (Exception ex)
             {
                 MessageBox.Show($"Błąd przy odczycie: {ex.Message}");
+            }
+        }
+        private void CokolwiekZmienione(object sender, RoutedEventArgs e)
+        {
+            comboTypBiletu_SelectionChanged(sender, null);
+            AktualizujPodgladCeny();
+        }
+
+        private void AktualizujPodgladCeny()
+        {
+            try
+            {
+                if (comboKlasa.SelectedItem == null || comboTypBiletu.SelectedItem == null)
+                    return;
+
+                EnumKlasa klasa = (EnumKlasa)comboKlasa.SelectedItem;
+
+                double cenaBazowa = 300;
+                double cena = cenaBazowa;
+
+                // sezon (lipiec–sierpień)
+                if (dateWylotu.SelectedDate is DateTime data)
+                {
+                    if (data.Month == 7 || data.Month == 8)
+                    {
+                        cena *= 1.5;
+                    }
+                }
+
+                // klasa
+                cena *= klasa switch
+                {
+                    EnumKlasa.Ekonomiczna => 1.0,
+                    EnumKlasa.Biznesowa => 1.5,
+                    EnumKlasa.Pierwsza => 2.0,
+                    _ => 1.0
+                };
+
+                // typ biletu
+                if (comboTypBiletu.SelectedItem.ToString() == "Międzykontynentalny")
+                {
+                    if (chkWiza.IsChecked == true)
+                        cena += 200;
+                }
+
+                // posiłki
+                if (chkPosilek1.IsChecked == true) cena += 50;
+                if (chkPosilek2.IsChecked == true) cena += 50;
+                if (chkPosilek3.IsChecked == true) cena += 50;
+
+
+                txtPodgladCeny.Text = cena.ToString("C");
+            }
+            catch
+            {
+                txtPodgladCeny.Text = "---";
             }
         }
 

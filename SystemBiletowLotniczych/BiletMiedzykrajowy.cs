@@ -24,7 +24,7 @@ namespace SystemBiletowLotniczych
         }
         public override string ToString()
         {
-            return base.ToString() + $", Dodatkowa opłata: {DodatkoweOplaty:P}";
+            return base.ToString() + $"Dodatkowa opłata: {DodatkoweOplaty:C}";
         }
     }
 }
