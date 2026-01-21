@@ -222,6 +222,12 @@ namespace ProjektGUI
                 if (chkPosilek2.IsChecked == true) cena += 50;
                 if (chkPosilek3.IsChecked == true) cena += 50;
 
+                // zniżki
+                if (chkZnizkaStudent.IsChecked == true)
+                    cena *= 0.5;
+
+                if (chkZnizkaSenior.IsChecked == true)
+                    cena *= 0.7;
 
                 txtPodgladCeny.Text = cena.ToString("C");
             }
