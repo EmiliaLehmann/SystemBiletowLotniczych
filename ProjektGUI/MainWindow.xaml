@@ -161,6 +161,12 @@
                                         <CheckBox x:Name="chkPosilek2" Content="Posiłek 2" Margin="10,5" Foreground="Green" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
                                         <CheckBox x:Name="chkPosilek3" Content="Posiłek 3" Margin="10,5" Foreground="LawnGreen" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
                                     </StackPanel>
+                                    <StackPanel x:Name="panelZnizki" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                                        <TextBlock Text="Zniżki:" Margin="0,5" FontWeight="Bold"/>
+                                        <CheckBox x:Name="chkZnizkaStudent" Content="Student -50%" Margin="10,5" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                        <CheckBox x:Name="chkZnizkaSenior" Content="Senior -30%" Margin="10,5" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                    </StackPanel>
+
                                 </Grid>
                             </GroupBox>
 
