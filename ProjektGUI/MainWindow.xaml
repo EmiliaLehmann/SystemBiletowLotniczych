@@ -125,7 +125,7 @@
                                     <TextBlock Text="Miasto przylotu:" Grid.Column="2" Foreground="#212121" FontWeight="Bold"/>
                                     <TextBox x:Name="txtMiastoPrzylotu" Grid.Column="3"/>
                                     <TextBlock Text="Data wylotu:" Grid.Row="1" Foreground="#212121" FontWeight="Bold"/>
-                                    <DatePicker x:Name="dateWylotu" Grid.Row="1" Grid.Column="1"/>
+                                    <DatePicker x:Name="dateWylotu" Grid.Row="1" Grid.Column="1" SelectedDateChanged="CokolwiekZmienione"/>
                                     <TextBlock Text="Godzina (HH:mm):" Grid.Row="1" Grid.Column="2" Foreground="#212121" FontWeight="Bold"/>
                                     <TextBox x:Name="txtGodzina" Grid.Row="1" Grid.Column="3"/>
                                 </Grid>
@@ -146,22 +146,34 @@
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <TextBlock Text="Rodzaj:" Foreground="#212121" FontWeight="Bold"/>
-                                    <ComboBox x:Name="comboTypBiletu" Grid.Column="1" SelectionChanged="comboTypBiletu_SelectionChanged"/>
+                                    <ComboBox x:Name="comboTypBiletu" Grid.Column="1" SelectionChanged="CokolwiekZmienione"/>
+
                                     <TextBlock Text="Klasa:" Grid.Column="2" Foreground="#212121" FontWeight="Bold"/>
-                                    <ComboBox x:Name="comboKlasa" Grid.Column="3"/>
-                                    <TextBlock x:Name="lblPodatek" Text="Podatek:" Grid.Row="1" Visibility="Collapsed" Foreground="#212121" FontWeight="Bold"/>
-                                    <TextBox x:Name="txtPodatek" Grid.Row="1" Grid.Column="1" Width="80" Text="0.08" Visibility="Collapsed"/>
-                                    <CheckBox x:Name="chkWiza" Content="Wiza wymagana" Grid.Row="1" Grid.Column="2" Visibility="Collapsed" Foreground="#212121" FontWeight="Bold"/>
+                                    <ComboBox x:Name="comboKlasa" Grid.Column="3" SelectionChanged="CokolwiekZmienione"/>
+
+                                    <CheckBox x:Name="chkWiza" Content="Wiza wymagana" Grid.Row="1" Grid.Column="2" Visibility="Collapsed"
+                                    Checked="CokolwiekZmienione"
+                                    Unchecked="CokolwiekZmienione"/>
+
                                     <StackPanel x:Name="panelPosilki" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" Visibility="Collapsed">
                                         <TextBlock Text="Posiłki:" Margin="0,5" Foreground="#212121" FontWeight="Bold"/>
-                                        <CheckBox x:Name="chkPosilek1" Content="Posiłek 1" Margin="10,5" Foreground="DarkGreen"/>
-                                        <CheckBox x:Name="chkPosilek2" Content="Posiłek 2" Margin="10,5" Foreground="Green"/>
-                                        <CheckBox x:Name="chkPosilek3" Content="Posiłek 3" Margin="10,5" Foreground="LawnGreen"/>
+                                        <CheckBox x:Name="chkPosilek1" Content="Posiłek 1" Margin="10,5" Foreground="DarkGreen" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                        <CheckBox x:Name="chkPosilek2" Content="Posiłek 2" Margin="10,5" Foreground="Green" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                        <CheckBox x:Name="chkPosilek3" Content="Posiłek 3" Margin="10,5" Foreground="LawnGreen" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
                                     </StackPanel>
                                 </Grid>
                             </GroupBox>
 
                             <Button Content="Dodaj bilet" Width="150" Height="35" Click="btnDodajBilet_Click"/>
+                            <!-- pokazywanie zmian w cenie na bieżąco -->
+                            <TextBlock x:Name="txtPodgladCeny"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="DarkGreen"
+                            HorizontalAlignment="Center"
+                            Text="Podgląd ceny: ---"/>
+
+
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -185,7 +197,7 @@
                                     <GridViewColumn Header="Miasto wylotu" Width="120" DisplayMemberBinding="{Binding MiastoWylotu}"/>
                                     <GridViewColumn Header="Miasto przylotu" Width="120" DisplayMemberBinding="{Binding MiastoPrzylotu}"/>
                                     <GridViewColumn Header="Data wylotu" Width="110" DisplayMemberBinding="{Binding DataWylotu}"/>
-                                    <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding ObliczCeneKoncowa}"/>
+                                    <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding CenaKoncowa, StringFormat=C}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -234,7 +246,7 @@
                                     <GridViewColumn Header="Miasto wylotu" Width="120" DisplayMemberBinding="{Binding MiastoWylotu}"/>
                                     <GridViewColumn Header="Miasto przylotu" Width="120" DisplayMemberBinding="{Binding MiastoPrzylotu}"/>
                                     <GridViewColumn Header="Data wylotu" Width="110" DisplayMemberBinding="{Binding DataWylotu}"/>
-                                    <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding ObliczCeneKoncowa}"/>
+                                    <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding CenaKoncowa, StringFormat=C}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>

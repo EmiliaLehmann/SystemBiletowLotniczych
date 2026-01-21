@@ -36,9 +36,11 @@ namespace SystemBiletowLotniczych
 
         public override string ToString()
         {
-            return base.ToString() + $", Wiza wymagana: {WizaWymagana}.\n"+ 
-                  $"Cena usług dodatkowych : {CenaUslugDodatkowych:C}." ;
+            return base.ToString() +
+                   $"Wiza wymagana: {(WizaWymagana ? "TAK" : "NIE")}\n" +
+                   $"Cena usług dodatkowych: {CenaUslugDodatkowych:C}.";
         }
+
 
         public void DodajPosilek(string nazwaPosilku)
         {

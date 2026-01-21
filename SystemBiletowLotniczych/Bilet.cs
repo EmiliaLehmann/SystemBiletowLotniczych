@@ -30,6 +30,9 @@ namespace SystemBiletowLotniczych
 
         public static List<Bilet> kupioneBilety = new List<Bilet>();     //mamy polimorfizm wiec lista "zbiera" wszystkie bilety dziedziczace po bilet
 
+        [XmlIgnore]
+        [NotMapped]
+        public double CenaKoncowa => ObliczCeneKoncowa();
 
 
 
@@ -352,5 +355,7 @@ namespace SystemBiletowLotniczych
         public static double Student(double c) => c * 0.5;
         public static double Senior(double c) => c * 0.7;
     }
+
+
 
 }

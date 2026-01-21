@@ -28,7 +28,7 @@ namespace SystemBiletowLotniczych
                     suma += bilet.ObliczCeneKoncowa();
                 }
 
-                return suma * znizka;
+                return suma * (1 - znizka);
             }
 
             public string GenerujNumerTrasy()
