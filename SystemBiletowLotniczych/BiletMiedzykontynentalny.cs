@@ -24,6 +24,7 @@ namespace SystemBiletowLotniczych
             WizaWymagana = wizaWymagana;
         }
 
+        public override double stawkaPodatkowa => 0.18;
         public override double ObliczCeneKoncowa()
         {
             double cenabazowa = base.ObliczCeneKoncowa();
@@ -31,7 +32,7 @@ namespace SystemBiletowLotniczych
             {
                 cenabazowa += 200; 
             }
-            return cenabazowa + CenaUslugDodatkowych;
+            return (cenabazowa * (1+ stawkaPodatkowa)) + CenaUslugDodatkowych;
         }
 
         public override string ToString()

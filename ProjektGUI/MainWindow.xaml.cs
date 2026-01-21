@@ -32,8 +32,7 @@ namespace ProjektGUI
 
         private void comboTypBiletu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lblPodatek.Visibility = Visibility.Collapsed;
-            txtPodatek.Visibility = Visibility.Collapsed;
+
             chkWiza.Visibility = Visibility.Collapsed;
             panelPosilki.Visibility = Visibility.Collapsed;
 
@@ -41,8 +40,7 @@ namespace ProjektGUI
 
             if (typ == "Krajowy")
             {
-                lblPodatek.Visibility = Visibility.Visible;
-                txtPodatek.Visibility = Visibility.Visible;
+
             }
             else if (typ == "Międzykontynentalny")
             {
@@ -72,12 +70,12 @@ namespace ProjektGUI
                 switch (comboTypBiletu.SelectedItem.ToString())
                 {
                     case "Krajowy":
-                        double podatek = double.Parse(txtPodatek.Text);
+                        
                         nowyBilet = new BiletKrajowy(imie, nazwisko, cenaBazowa,
                             data, godzina, klasa, DateTime.Now,
                             miastoWylotu, miastoPrzylotu)
                         {
-                            StawkaPodatkowa = podatek
+                            
                         };
                         break;
 

@@ -149,8 +149,7 @@
                                     <ComboBox x:Name="comboTypBiletu" Grid.Column="1" SelectionChanged="comboTypBiletu_SelectionChanged"/>
                                     <TextBlock Text="Klasa:" Grid.Column="2" Foreground="#212121" FontWeight="Bold"/>
                                     <ComboBox x:Name="comboKlasa" Grid.Column="3"/>
-                                    <TextBlock x:Name="lblPodatek" Text="Podatek:" Grid.Row="1" Visibility="Collapsed" Foreground="#212121" FontWeight="Bold"/>
-                                    <TextBox x:Name="txtPodatek" Grid.Row="1" Grid.Column="1" Width="80" Text="0.08" Visibility="Collapsed"/>
+                                    
                                     <CheckBox x:Name="chkWiza" Content="Wiza wymagana" Grid.Row="1" Grid.Column="2" Visibility="Collapsed" Foreground="#212121" FontWeight="Bold"/>
                                     <StackPanel x:Name="panelPosilki" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" Visibility="Collapsed">
                                         <TextBlock Text="Posiłki:" Margin="0,5" Foreground="#212121" FontWeight="Bold"/>

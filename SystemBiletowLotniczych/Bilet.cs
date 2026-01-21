@@ -30,7 +30,7 @@ namespace SystemBiletowLotniczych
 
         public static List<Bilet> kupioneBilety = new List<Bilet>();     //mamy polimorfizm wiec lista "zbiera" wszystkie bilety dziedziczace po bilet
 
-
+        public virtual double stawkaPodatkowa => 0.0;
 
 
         //entity framework robi kolumne dla kazdej publicznej wlasciwosci ktora ma get i set
@@ -351,6 +351,8 @@ namespace SystemBiletowLotniczych
     {
         public static double Student(double c) => c * 0.5;
         public static double Senior(double c) => c * 0.7;
+
+        public static double Normalny(double c) => c * 1.0;
     }
 
 }

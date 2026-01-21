@@ -17,10 +17,11 @@ namespace SystemBiletowLotniczych
 
         public double DodatkoweOplaty { get => dodatkoweOplaty; set => dodatkoweOplaty = value; }
 
+        public override double stawkaPodatkowa => 0.15;
         public override double ObliczCeneKoncowa()
         {
             double cenabazowa = base.ObliczCeneKoncowa();
-            return cenabazowa + DodatkoweOplaty;
+            return (cenabazowa + DodatkoweOplaty) * (1+ stawkaPodatkowa);
         }
         public override string ToString()
         {

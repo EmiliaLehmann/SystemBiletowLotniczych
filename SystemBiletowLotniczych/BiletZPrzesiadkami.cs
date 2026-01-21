@@ -20,7 +20,7 @@ namespace SystemBiletowLotniczych
         } 
 
      
-            public new double ObliczCeneKoncowa()
+            public override double ObliczCeneKoncowa()
             {
                 double suma = 0;
                 foreach (var bilet in EtapyPodrozy)

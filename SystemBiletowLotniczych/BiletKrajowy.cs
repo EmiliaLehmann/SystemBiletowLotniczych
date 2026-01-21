@@ -6,8 +6,7 @@ namespace SystemBiletowLotniczych
 {
     public class BiletKrajowy : Bilet
     {
-        private double stawkaPodatkowa = 0.08;
-
+        
         public BiletKrajowy() : base()
         {
         }
@@ -17,18 +16,18 @@ namespace SystemBiletowLotniczych
         {
         }
 
-        public double StawkaPodatkowa { get => stawkaPodatkowa; set => stawkaPodatkowa = value; }
+        public override double stawkaPodatkowa => 0.08;
 
         public override double ObliczCeneKoncowa()
         {
             double cenabazowa = base.ObliczCeneKoncowa();
 
-            return cenabazowa * (1 + StawkaPodatkowa);
+            return cenabazowa * (1 + stawkaPodatkowa);
         }
 
         public override string ToString()
         {
-            return base.ToString() + $", StawkaPodatkowa: {StawkaPodatkowa:P}";
+            return base.ToString() + $", StawkaPodatkowa: {stawkaPodatkowa:P}";
 
         }
     }
