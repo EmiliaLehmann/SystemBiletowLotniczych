@@ -1,14 +1,15 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using System.Globalization;
+using System.Threading;
 using System.Windows;
 
-namespace ProjektGUI
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    protected override void OnStartup(StartupEventArgs e)
     {
-    }
+        CultureInfo pl = new CultureInfo("pl-PL");
+        Thread.CurrentThread.CurrentCulture = pl;
+        Thread.CurrentThread.CurrentUICulture = pl;
 
+        base.OnStartup(e);
+    }
 }

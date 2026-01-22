@@ -144,6 +144,7 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                         <RowDefinition/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <TextBlock Text="Rodzaj:" Foreground="#212121" FontWeight="Bold"/>
                                     <ComboBox x:Name="comboTypBiletu" Grid.Column="1" SelectionChanged="CokolwiekZmienione"/>
@@ -202,7 +203,7 @@
                                     <GridViewColumn Header="Pasażer" Width="150" DisplayMemberBinding="{Binding ImiePasazera}"/>
                                     <GridViewColumn Header="Miasto wylotu" Width="120" DisplayMemberBinding="{Binding MiastoWylotu}"/>
                                     <GridViewColumn Header="Miasto przylotu" Width="120" DisplayMemberBinding="{Binding MiastoPrzylotu}"/>
-                                    <GridViewColumn Header="Data wylotu" Width="110" DisplayMemberBinding="{Binding DataWylotu}"/>
+                                    <GridViewColumn Header="Data i godzina wylotu" DisplayMemberBinding="{Binding DataIGodzinaWylotu, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
                                     <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding CenaKoncowa, StringFormat=C}"/>
                                 </GridView>
                             </ListView.View>

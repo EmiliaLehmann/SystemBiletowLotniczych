@@ -28,7 +28,7 @@ namespace SystemBiletowLotniczych
 
         public override string ToString()
         {
-            return base.ToString() + $", StawkaPodatkowa: {StawkaPodatkowa:P}";
+            return base.ToString() + $"StawkaPodatkowa: {StawkaPodatkowa:P}";
 
         }
     }

@@ -54,7 +54,17 @@ namespace ProjektGUI
                 string miastoPrzylotu = txtMiastoPrzylotu.Text;
 
                 DateTime data = dateWylotu.SelectedDate ?? throw new Exception("Wybierz datę");
-                TimeOnly godzina = TimeOnly.Parse(txtGodzina.Text);
+                if (!TimeOnly.TryParseExact(
+                    txtGodzina.Text,
+                    "HH:mm",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None,
+                    out TimeOnly godzina))
+                {
+                    MessageBox.Show("Podaj godzinę w formacie HH:mm (np. 09:30)");
+                    return;
+                }
+
 
                 EnumKlasa klasa = (EnumKlasa)comboKlasa.SelectedItem;
                 double cenaBazowa = 300;
