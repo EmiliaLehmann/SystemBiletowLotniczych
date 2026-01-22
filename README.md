@@ -39,3 +39,7 @@ System przelicza cenę, sprawdza dostępność miejsc w samolocie i rezerwuje mi
 * Inteligetny system obliczania cen, uwzględnia sezonowość, klasy, usługi dodatkowe, system zniżek wykorzystujący delegat
 * Przechowywanie danych albo w bazie danych przy użyciu Entity Framework, albo do pliku .xml używając serializacje Xml
 * Opcje sortowania listy biletów
+
+## Dokumentacja projektu
+* [Pobierz Dokumentację Techniczną](./docs/Sprawozdanie_projekt_SystemBiletówLotniczych.pdf)
+* [Pobierz Instrukcję](./docs/Instrukcja_SystemBiletowLotniczych.pdf)
