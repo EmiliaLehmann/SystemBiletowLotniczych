@@ -1,46 +1,277 @@
 ﻿<Window x:Class="ProjektGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjektGUI"
-        mc:Ignorable="d"
-        Title="System Biletów" Height="600" Width="800">
+        xmlns:wpfAnimatedGif="http://wpfanimatedgif.codeplex.com"
+        Title="System biletów lotniczych"
+        Height="700" Width="950">
+
+    <Window.Resources>
+        <!-- style przycisków -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="LightSeaGreen"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderBrush" Value="DarkGreen"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" ShadowDepth="2" BlurRadius="5"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightGreen"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- style GroupBox -->
+        <Style TargetType="GroupBox">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="BlanchedAlmond"/>
+            <Setter Property="Foreground" Value="#212121"/>
+        </Style>
+
+        <!-- style TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+
+        <!-- style ComboBox -->
+        <Style TargetType="ComboBox">
+            <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+
+        <!-- style TabItem -->
+        <Style TargetType="TabItem">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Background" Value="LightSteelBlue"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="DeepSkyBlue"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="10">
-        <TextBlock Text="Imię:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0"/>
-        <TextBox x:Name="txtImie" Width="150" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,10,0,0"/>
+        <TabControl>
 
-        <TextBlock Text="Nazwisko:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,45,0,0"/>
-        <TextBox x:Name="txtNazwisko" Width="150" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,45,0,0"/>
+            <!-- zakładka 1: nowy bilet -->
+            <TabItem Header="Nowy bilet">
+                <Grid Background="#FF59BABA">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
+                        <StackPanel Margin="10">
+                            <!-- GIF samolotu -->
+                            <Image wpfAnimatedGif:ImageBehavior.AnimatedSource="pack://application:,,,/airplane.gif"
+                                   Width="80" Height="80" HorizontalAlignment="Right" Margin="0,0,0,10"/>
 
-        <TextBlock Text="Klasa:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,80,0,0"/>
-        <ComboBox x:Name="comboKlasa" Width="150" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,80,0,0"/>
+                            <!-- dane pasażera -->
+                            <GroupBox Header="Dane pasażera">
+                                <Grid Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Imię:" Grid.Row="0" Foreground="#212121" FontWeight="Bold"/>
+                                    <TextBox x:Name="txtImie" Grid.Row="0" Grid.Column="1"/>
+                                    <TextBlock Text="Nazwisko:" Grid.Row="1" Foreground="#212121" FontWeight="Bold"/>
+                                    <TextBox x:Name="txtNazwisko" Grid.Row="1" Grid.Column="1"/>
+                                </Grid>
+                            </GroupBox>
 
-        <TextBlock Text="Typ biletu:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,115,0,0"/>
-        <ComboBox x:Name="comboTypBiletu" Width="150" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,115,0,0"
-                  SelectionChanged="comboTypBiletu_SelectionChanged"/>
+                            <!-- dane lotu -->
+                            <GroupBox Header="Dane lotu">
+                                <Grid Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Miasto wylotu:" Foreground="#212121" FontWeight="Bold"/>
+                                    <TextBox x:Name="txtMiastoWylotu" Grid.Column="1"/>
+                                    <TextBlock Text="Miasto przylotu:" Grid.Column="2" Foreground="#212121" FontWeight="Bold"/>
+                                    <TextBox x:Name="txtMiastoPrzylotu" Grid.Column="3"/>
+                                    <TextBlock Text="Data wylotu:" Grid.Row="1" Foreground="#212121" FontWeight="Bold"/>
+                                    <DatePicker x:Name="dateWylotu" Grid.Row="1" Grid.Column="1" SelectedDateChanged="CokolwiekZmienione"/>
+                                    <TextBlock Text="Godzina (HH:mm):" Grid.Row="1" Grid.Column="2" Foreground="#212121" FontWeight="Bold"/>
+                                    <TextBox x:Name="txtGodzina" Grid.Row="1" Grid.Column="3"/>
+                                </Grid>
+                            </GroupBox>
 
-        <CheckBox x:Name="chkWiza" Content="Wiza wymagana"
-                  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300,115,0,0"
-                  Visibility="Collapsed"/>
+                            <!-- typ biletu -->
+                            <GroupBox Header="Typ biletu">
+                                <Grid Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Rodzaj:" Foreground="#212121" FontWeight="Bold"/>
+                                    <ComboBox x:Name="comboTypBiletu" Grid.Column="1" SelectionChanged="CokolwiekZmienione"/>
 
-        <TextBlock Text="Podatek:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,150,0,0"
-                   x:Name="lblPodatek" Visibility="Collapsed"/>
-        <TextBox x:Name="txtPodatek" Width="50" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,150,0,0"
-                 Visibility="Collapsed" Text="8"/>
+                                    <TextBlock Text="Klasa:" Grid.Column="2" Foreground="#212121" FontWeight="Bold"/>
+                                    <ComboBox x:Name="comboKlasa" Grid.Column="3" SelectionChanged="CokolwiekZmienione"/>
 
-        <TextBlock Text="Wybierz posiłki:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,185,0,0"
-                   x:Name="lblPosilki" Visibility="Collapsed"/>
-        <CheckBox x:Name="chkPosilek1" Content="Posiłek 1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,185,0,0"
-                  Visibility="Collapsed"/>
-        <CheckBox x:Name="chkPosilek2" Content="Posiłek 2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="200,185,0,0"
-                  Visibility="Collapsed"/>
-        <CheckBox x:Name="chkPosilek3" Content="Posiłek 3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300,185,0,0"
-                  Visibility="Collapsed"/>
+                                    <CheckBox x:Name="chkWiza" Content="Wiza wymagana" Grid.Row="1" Grid.Column="2" Visibility="Collapsed"
+                                    Checked="CokolwiekZmienione"
+                                    Unchecked="CokolwiekZmienione"/>
 
-        <Button Content="Dodaj Bilet" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,225,0,0"
-                Click="btnDodajBilet_Click"/>
+                                    <StackPanel x:Name="panelPosilki" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" Visibility="Collapsed">
+                                        <TextBlock Text="Posiłki:" Margin="0,5" Foreground="#212121" FontWeight="Bold"/>
+                                        <CheckBox x:Name="chkPosilek1" Content="Posiłek 1" Margin="10,5" Foreground="DarkGreen" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                        <CheckBox x:Name="chkPosilek2" Content="Posiłek 2" Margin="10,5" Foreground="Green" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                        <CheckBox x:Name="chkPosilek3" Content="Posiłek 3" Margin="10,5" Foreground="LawnGreen" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                    </StackPanel>
+                                    <StackPanel x:Name="panelZnizki" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                                        <TextBlock Text="Zniżki:" Margin="0,5" FontWeight="Bold"/>
+                                        <CheckBox x:Name="chkZnizkaStudent" Content="Student -50%" Margin="10,5" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                        <CheckBox x:Name="chkZnizkaSenior" Content="Senior -30%" Margin="10,5" Checked="CokolwiekZmienione" Unchecked="CokolwiekZmienione"/>
+                                    </StackPanel>
 
-        <ListBox x:Name="listBoxBilety" Width="700" Height="300" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,270,0,0"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <Button Content="Dodaj bilet" Width="150" Height="35" Click="btnDodajBilet_Click"/>
+                            <!-- pokazywanie zmian w cenie na bieżąco -->
+                            <TextBlock x:Name="txtPodgladCeny"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="DarkGreen"
+                            HorizontalAlignment="Center"
+                            Text="Podgląd ceny: ---"/>
+
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- zakładka 2: lista biletów -->
+            <TabItem Header="Lista biletów">
+                <Grid>
+                    <Image wpfAnimatedGif:ImageBehavior.AnimatedSource="pack://application:,,,/airplane.gif"
+                           Width="80" Height="80" HorizontalAlignment="Right" Margin="0,10,10,0"/>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView x:Name="listViewBilety" Grid.Row="0" Margin="0,0,0,10" Background="BlanchedAlmond">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Numer biletu" Width="170" DisplayMemberBinding="{Binding PelnyNumerBiletu}"/>
+                                    <GridViewColumn Header="Pasażer" Width="180">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <Run Text="{Binding ImiePasazera}"/>
+                                                    <Run Text=" "/>
+                                                    <Run Text="{Binding NazwiskoPasazera}"/>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Miasto wylotu" Width="120" DisplayMemberBinding="{Binding MiastoWylotu}"/>
+                                    <GridViewColumn Header="Miasto przylotu" Width="120" DisplayMemberBinding="{Binding MiastoPrzylotu}"/>
+                                    <GridViewColumn Header="Data i godzina wylotu" DisplayMemberBinding="{Binding DataIGodzinaWylotu, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
+                                    <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding CenaKoncowa, StringFormat={}{0:C}, ConverterCulture=pl-PL}"/>
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button Content="Pokaż szczegóły" Grid.Row="1" Width="150" HorizontalAlignment="Left" Click="btnSzczegoly_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- zakładka 3: zapis / odczyt -->
+            <TabItem Header="Zapis / Odczyt">
+                <Grid>
+                    <Image wpfAnimatedGif:ImageBehavior.AnimatedSource="pack://application:,,,/airplane.gif"
+                           Width="80" Height="80" HorizontalAlignment="Right" Margin="0,10,10,0"/>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Row="0" Grid.Column="0" Width="180" Height="35" Click="btnZapiszXML_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="diskette.gif" Width="20" Height="20"/>
+                                <TextBlock Text=" Zapisz do XML"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Grid.Row="0" Grid.Column="1" Width="180" Height="35" Click="btnOdczytajXML_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="folder.gif" Width="20" Height="20"/>
+                                <TextBlock Text=" Odczytaj z XML"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBox x:Name="txtNazwaPliku" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="30" Text="bilety.xml" Margin="5"/>
+
+                        <ListView x:Name="listViewXML" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0" Background="#F1F8E9">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Numer biletu" Width="170" DisplayMemberBinding="{Binding PelnyNumerBiletu}"/>
+                                    <GridViewColumn Header="Pasażer" Width="150" DisplayMemberBinding="{Binding ImiePasazera}"/>
+                                    <GridViewColumn Header="Miasto wylotu" Width="120" DisplayMemberBinding="{Binding MiastoWylotu}"/>
+                                    <GridViewColumn Header="Miasto przylotu" Width="120" DisplayMemberBinding="{Binding MiastoPrzylotu}"/>
+                                    <GridViewColumn Header="Data wylotu" Width="110" DisplayMemberBinding="{Binding DataWylotu}"/>
+                                    <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding CenaKoncowa, StringFormat=C}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
     </Grid>
 </Window>
