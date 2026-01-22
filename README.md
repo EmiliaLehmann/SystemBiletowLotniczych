@@ -41,5 +41,5 @@ System przelicza cenę, sprawdza dostępność miejsc w samolocie i rezerwuje mi
 * Opcje sortowania listy biletów
 
 ## Dokumentacja projektu
-* [Pobierz Dokumentację Techniczną](./docs/Sprawozdanie_projekt_SystemBiletówLotniczych.pdf)
-* [Pobierz Instrukcję](./docs/Instrukcja_SystemBiletowLotniczych.pdf)
+* [Pokaż Dokumentację Techniczną](./docs/Sprawozdanie_projekt_SystemBiletowLotniczych.pdf)
+* [Pokaż Instrukcję](./docs/Instrukcja_SystemBiletowLotniczych.pdf)
