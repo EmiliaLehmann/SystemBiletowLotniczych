@@ -34,6 +34,14 @@ namespace SystemBiletowLotniczych
         [NotMapped]
         public double CenaKoncowa => ObliczCeneKoncowa();
 
+        [XmlIgnore]
+        [NotMapped]
+        public DateTime DataIGodzinaWylotu
+        {
+            get => DataWylotu.Date + GodzinaWylotu.ToTimeSpan();
+        }
+
+
 
 
         //entity framework robi kolumne dla kazdej publicznej wlasciwosci ktora ma get i set
