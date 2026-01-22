@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Media;
 using System.Windows;
@@ -11,6 +12,9 @@ namespace ProjektGUI
     {
         public MainWindow()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("pl-PL");
+
             InitializeComponent();
             InicjalizujComboBoxy();
             OdswiezListeBiletow();
