@@ -8,6 +8,9 @@ namespace Bilet.Tests
     [TestClass]
     public class BiletKrajowyTests
     {
+        /// <summary>
+        /// Testuje, czy konstruktor domyślny ustawia domyślną stawkę podatkową 0,08.
+        /// </summary>
         [TestMethod]
         public void Konstruktor_Domyślny_UstawiaStawkePodatkowa()
         {
@@ -15,36 +18,40 @@ namespace Bilet.Tests
             Assert.AreEqual(0.08, bilet.StawkaPodatkowa);
         }
 
+        /// <summary>
+        /// Sprawdza, czy ObliczCeneKoncowa uwzględnia podatek.
+        /// </summary>
         [TestMethod]
         public void ObliczCeneKoncowa_ZawieraPodatek()
         {
-            // Arrange
             var data = DateTime.Now.AddDays(10);
             var godzina = TimeOnly.FromDateTime(DateTime.Now);
             var bilet = new BiletKrajowy("Jan", "Kowalski", 100, data, godzina, EnumKlasa.Ekonomiczna, DateTime.Now, "Warszawa", "Kraków");
 
-            // Act
             double cenaKoncowa = bilet.ObliczCeneKoncowa();
 
-            // Cena bazowa: 100 * mnożnik klasy (1.0) * mnożnik sezonowy (1.0) = 100
-            // Cena z podatkiem: 100 * (1 + 0.08) = 108
             Assert.AreEqual(108, cenaKoncowa, 0.01);
         }
 
+        /// <summary>
+        /// Testuje, czy ObliczCeneKoncowa dla klasy biznesowej w sezonie letnim uwzględnia podatek.
+        /// </summary>
         [TestMethod]
         public void ObliczCeneKoncowa_BiznesowaWSezonieLetnim_PodatekUwzgledniony()
         {
-            var data = new DateTime(DateTime.Now.Year, 7, 15); // lipiec
+            var data = new DateTime(DateTime.Now.Year, 7, 15);
             var godzina = new TimeOnly(12, 0);
             var bilet = new BiletKrajowy("Anna", "Nowak", 200, data, godzina, EnumKlasa.Biznesowa, DateTime.Now, "Gdańsk", "Poznań");
 
-            double cenaBazowa = 200 * 1.5 * 1.5; // cena * mnoznik klasy * mnoznik sezonowy
-            double oczekiwana = cenaBazowa * 1.08; // podatek
+            double cenaBazowa = 200 * 1.5 * 1.5;
+            double oczekiwana = cenaBazowa * 1.08;
 
             Assert.AreEqual(oczekiwana, bilet.ObliczCeneKoncowa(), 0.01);
         }
 
-
+        /// <summary>
+        /// Sprawdza, czy można zmienić wartość stawki podatkowej.
+        /// </summary>
         [TestMethod]
         public void StawkaPodatkowa_MoznaZmienić()
         {
@@ -53,6 +60,9 @@ namespace Bilet.Tests
             Assert.AreEqual(0.15, bilet.StawkaPodatkowa);
         }
 
+        /// <summary>
+        /// Testuje, czy ToString zawiera informacje o stawce podatkowej.
+        /// </summary>
         [TestMethod]
         public void ToString_ZawieraInformacjeOPodatku()
         {
@@ -63,14 +73,15 @@ namespace Bilet.Tests
             string opis = bilet.ToString();
             StringAssert.Contains(opis, "StawkaPodatkowa");
         }
-
-
     }
 
     // bilet miedzykontynentlany
     [TestClass]
     public class BiletMiedzykontynentalnyTests
     {
+        /// <summary>
+        /// Testuje, czy konstruktor domyślny ustawia WizaWymagana na false i CenaUslugDodatkowych na 0.
+        /// </summary>
         [TestMethod]
         public void Konstruktor_Domyślny_WizaFalse()
         {
@@ -79,6 +90,9 @@ namespace Bilet.Tests
             Assert.AreEqual(0, bilet.CenaUslugDodatkowych);
         }
 
+        /// <summary>
+        /// Sprawdza, czy ObliczCeneKoncowa uwzględnia wize i dodatkowe usługi.
+        /// </summary>
         [TestMethod]
         public void ObliczCeneKoncowa_WizaDodatkowe()
         {
@@ -88,13 +102,15 @@ namespace Bilet.Tests
                 "Anna", "Nowak", 300, data, godzina, EnumKlasa.Ekonomiczna,
                 "NowyJork", "Warszawa", true, 0);
 
-            // baza = 300 * mnoznik klasy * mnoznik sezonowy
             double cenaBazowa = 300 * 1.0 * 1.0;
-            double oczekiwana = cenaBazowa + 200; // wiza + brak dodatkowych usług
+            double oczekiwana = cenaBazowa + 200;
 
             Assert.AreEqual(oczekiwana, bilet.ObliczCeneKoncowa(), 0.01);
         }
 
+        /// <summary>
+        /// Testuje, czy DodajPosilek zwiększa CenaUslugDodatkowych.
+        /// </summary>
         [TestMethod]
         public void DodajPosilek_ZwiekszaCenaUslug()
         {
@@ -106,6 +122,9 @@ namespace Bilet.Tests
             Assert.AreEqual(100, bilet.CenaUslugDodatkowych);
         }
 
+        /// <summary>
+        /// Sprawdza, czy ToString zawiera informacje o wizie i usługach dodatkowych.
+        /// </summary>
         [TestMethod]
         public void ToString_ZawieraWizeIPosilki()
         {
@@ -124,53 +143,68 @@ namespace Bilet.Tests
 
     //bilet miedzykrajowy
     [TestClass]
-        public class BiletMiedzykrajowyTests
+    public class BiletMiedzykrajowyTests
+    {
+        /// <summary>
+        /// Testuje, czy konstruktor domyślny ustawia DodatkoweOplaty na 50.
+        /// </summary>
+        [TestMethod]
+        public void Konstruktor_Domyślny_UstawiaDodatkoweOplaty()
         {
-            [TestMethod]
-            public void Konstruktor_Domyślny_UstawiaDodatkoweOplaty()
-            {
-                var bilet = new BiletMiedzykrajowy();
-                Assert.AreEqual(50, bilet.DodatkoweOplaty);
-            }
-
-            [TestMethod]
-            public void ObliczCeneKoncowa_DodajeDodatkoweOplaty()
-            {
-                var data = DateTime.Now.AddDays(5);
-                var godzina = TimeOnly.FromDateTime(DateTime.Now);
-                var bilet = new BiletMiedzykrajowy("Marta", "Kowalska", 200, data, godzina, EnumKlasa.Ekonomiczna, "Berlin", "Warszawa");
-
-                // Bazowa cena = 200 * mnoznik klasy * mnoznik sezonowy
-                double cenaBazowa = 200 * 1.0 * 1.0;
-                double oczekiwana = cenaBazowa + 50; // + dodatkowe opłaty
-
-                Assert.AreEqual(oczekiwana, bilet.ObliczCeneKoncowa(), 0.01);
-            }
-
-            [TestMethod]
-            public void ToString_ZawieraDodatkowaOplate()
-            {
-                var data = DateTime.Now.AddDays(5);
-                var godzina = TimeOnly.FromDateTime(DateTime.Now);
-                var bilet = new BiletMiedzykrajowy("Marta", "Kowalska", 200, data, godzina, EnumKlasa.Ekonomiczna, "Berlin", "Warszawa");
-
-                string opis = bilet.ToString();
-                StringAssert.Contains(opis, "Dodatkowa opłata");
-                StringAssert.Contains(opis, "50"); // sprawdzamy, że 50 jest w stringu
-            }
-
-            [TestMethod]
-            public void DodatkoweOplaty_MoznaZmienić()
-            {
-                var bilet = new BiletMiedzykrajowy();
-                bilet.DodatkoweOplaty = 80;
-                Assert.AreEqual(80, bilet.DodatkoweOplaty);
-            }
+            var bilet = new BiletMiedzykrajowy();
+            Assert.AreEqual(50, bilet.DodatkoweOplaty);
         }
+
+        /// <summary>
+        /// Sprawdza, czy ObliczCeneKoncowa dodaje DodatkoweOplaty.
+        /// </summary>
+        [TestMethod]
+        public void ObliczCeneKoncowa_DodajeDodatkoweOplaty()
+        {
+            var data = DateTime.Now.AddDays(5);
+            var godzina = TimeOnly.FromDateTime(DateTime.Now);
+            var bilet = new BiletMiedzykrajowy("Marta", "Kowalska", 200, data, godzina, EnumKlasa.Ekonomiczna, "Berlin", "Warszawa");
+
+            double cenaBazowa = 200 * 1.0 * 1.0;
+            double oczekiwana = cenaBazowa + 50;
+
+            Assert.AreEqual(oczekiwana, bilet.ObliczCeneKoncowa(), 0.01);
+        }
+
+        /// <summary>
+        /// Testuje, czy ToString zawiera informację o dodatkowej opłacie.
+        /// </summary>
+        [TestMethod]
+        public void ToString_ZawieraDodatkowaOplate()
+        {
+            var data = DateTime.Now.AddDays(5);
+            var godzina = TimeOnly.FromDateTime(DateTime.Now);
+            var bilet = new BiletMiedzykrajowy("Marta", "Kowalska", 200, data, godzina, EnumKlasa.Ekonomiczna, "Berlin", "Warszawa");
+
+            string opis = bilet.ToString();
+            StringAssert.Contains(opis, "Dodatkowa opłata");
+            StringAssert.Contains(opis, "50");
+        }
+
+        /// <summary>
+        /// Sprawdza, czy można zmienić wartość DodatkoweOplaty.
+        /// </summary>
+        [TestMethod]
+        public void DodatkoweOplaty_MoznaZmienić()
+        {
+            var bilet = new BiletMiedzykrajowy();
+            bilet.DodatkoweOplaty = 80;
+            Assert.AreEqual(80, bilet.DodatkoweOplaty);
+        }
+    }
+
     //bilet comparer
     [TestClass]
     public class BiletPoDacieComparerTests
     {
+        /// <summary>
+        /// Testuje porównanie dwóch biletów o różnych datach.
+        /// </summary>
         [TestMethod]
         public void Compare_RozneDaty_ZwracaPoprawnyWynik()
         {
@@ -183,9 +217,12 @@ namespace Bilet.Tests
             var comparer = new BiletPoDacieComparer();
 
             int wynik = comparer.Compare(bilet1, bilet2);
-            Assert.IsTrue(wynik < 0); // bilet1 ma wcześniejszą datę
+            Assert.IsTrue(wynik < 0);
         }
 
+        /// <summary>
+        /// Testuje porównanie dwóch biletów o tej samej dacie.
+        /// </summary>
         [TestMethod]
         public void Compare_TakaSamaData_ZwracaZero()
         {
@@ -200,6 +237,9 @@ namespace Bilet.Tests
             Assert.AreEqual(0, wynik);
         }
 
+        /// <summary>
+        /// Testuje porównanie, gdy jeden lub oba bilety są null.
+        /// </summary>
         [TestMethod]
         public void Compare_NullBilet_ZwracaOdpowiedniWynik()
         {
@@ -208,9 +248,9 @@ namespace Bilet.Tests
 
             var comparer = new BiletPoDacieComparer();
 
-            Assert.AreEqual(-1, comparer.Compare(null, bilet)); // null jest mniejsze
-            Assert.AreEqual(1, comparer.Compare(bilet, null));  // bilet większy od null
-            Assert.AreEqual(0, comparer.Compare(null, null));   // oba null -> 0
+            Assert.AreEqual(-1, comparer.Compare(null, bilet));
+            Assert.AreEqual(1, comparer.Compare(bilet, null));
+            Assert.AreEqual(0, comparer.Compare(null, null));
         }
     }
 
@@ -219,6 +259,9 @@ namespace Bilet.Tests
     [TestClass]
     public class BlednaDataLotuExceptionTests
     {
+        /// <summary>
+        /// Sprawdza, czy ustawienie daty w przeszłości rzuca wyjątek BlednaDataLotuException.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(BlednaDataLotuException))]
         public void UstawienieDatyWPrzeszlosci_RzucaWyjatek()
@@ -233,23 +276,25 @@ namespace Bilet.Tests
     [TestClass]
     public class BledneMiastoExceptionTests
     {
+        /// <summary>
+        /// Sprawdza, czy ustawienie zbyt krótkiej nazwy miasta wylotu rzuca wyjątek BledneMiastoException.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(BledneMiastoException))]
         public void UstawienieMiastaZaKrotkiego_RzucaWyjatek()
         {
             var bilet = new BiletKrajowy();
-
-            // Miasto wylotu za krótkie
             bilet.MiastoWylotu = "AB";
         }
 
+        /// <summary>
+        /// Sprawdza, czy ustawienie zbyt krótkiej nazwy miasta przylotu rzuca wyjątek BledneMiastoException.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(BledneMiastoException))]
         public void UstawienieMiastaPrzylotuZaKrotkiego_RzucaWyjatek()
         {
             var bilet = new BiletKrajowy();
-
-            // Miasto przylotu za krótkie
             bilet.MiastoPrzylotu = "XY";
         }
     }
@@ -257,6 +302,9 @@ namespace Bilet.Tests
     [TestClass]
     public class BrakMiejscExceptionTests
     {
+        /// <summary>
+        /// Testuje, czy utworzenie biletu powyżej maksymalnej liczby miejsc rzuca wyjątek BrakMiejscException.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(BrakMiejscException))]
         public void UtworzenieBiletu_PowyzejMaksymalnejLiczbyMiejsc_RzucaWyjatek()
@@ -264,7 +312,6 @@ namespace Bilet.Tests
             var data = DateTime.Now.AddDays(10);
             var godzina = TimeOnly.FromDateTime(DateTime.Now);
 
-            // 180 biletów na ten sam lot
             for (int i = 0; i < 180; i++)
             {
                 var bilet = new BiletKrajowy(
@@ -272,7 +319,6 @@ namespace Bilet.Tests
                     DateTime.Now, "Warszawa", "Kraków");
             }
 
-            // 181 bilet powinien wyrzucić wyjątek
             var ostatniBilet = new BiletKrajowy(
                 "Jan", "Kowalski", 100, data, godzina, EnumKlasa.Ekonomiczna,
                 DateTime.Now, "Warszawa", "Kraków");
@@ -283,6 +329,9 @@ namespace Bilet.Tests
     [TestClass]
     public class IUslugowyTests
     {
+        /// <summary>
+        /// Sprawdza, czy DodajPosilek zwiększa CenaUslugDodatkowych.
+        /// </summary>
         [TestMethod]
         public void DodajPosilek_ZwiekszaCeneUslugDodatkowych()
         {
@@ -304,6 +353,9 @@ namespace Bilet.Tests
             Assert.AreEqual(100, bilet.CenaUslugDodatkowych);
         }
 
+        /// <summary>
+        /// Sprawdza, czy WyswietlUslugi poprawnie wypisuje wszystkie posiłki (testuje stan obiektu).
+        /// </summary>
         [TestMethod]
         public void WyswietlUslugi_WypisujePosilki()
         {
