@@ -7,7 +7,15 @@ using System.ComponentModel.DataAnnotations.Schema; //dla [NotMapped]
 
 namespace SystemBiletowLotniczych
 {
-    public enum EnumKlasa {Ekonomiczna, Biznesowa, Pierwsza};
+    /// <summary>
+    /// Enum określający klasę podróży pasażera.
+    /// </summary>
+    public enum EnumKlasa { Ekonomiczna, Biznesowa, Pierwsza };
+
+    /// <summary>
+    /// Abstrakcyjna klasa bazowa reprezentująca bilet lotniczy.
+    /// Zawiera wspólną logikę dla wszystkich typów biletów.
+    /// </summary>
     [XmlInclude(typeof(BiletKrajowy))]                //do mechanizmu XML - klasa bazowa moze przyjmowac postac konkretnej klasy pochodnej -- i nasza lista ma rozne obiekty 
     [XmlInclude(typeof(BiletMiedzykontynentalny))]
     [XmlInclude(typeof(BiletMiedzykrajowy))]
@@ -20,7 +28,7 @@ namespace SystemBiletowLotniczych
         private string nazwiskoPasazera;
         private DateTime dataWylotu;
         private TimeOnly godzinaWylotu;
-        private  EnumKlasa klasa;
+        private EnumKlasa klasa;
         private DateTime dataRezerwacji = DateTime.Now;
         private string miastoWylotu;
         private string miastoPrzylotu;
@@ -41,16 +49,16 @@ namespace SystemBiletowLotniczych
             get => DataWylotu.Date + GodzinaWylotu.ToTimeSpan();
         }
 
-
-
-
         //entity framework robi kolumne dla kazdej publicznej wlasciwosci ktora ma get i set
         [Key]
         public int BiletId { get; set; }
 
         public string ImiePasazera { get => imiePasazera; set => imiePasazera = value; }
         public string NazwiskoPasazera { get => nazwiskoPasazera; set => nazwiskoPasazera = value; }
-        public DateTime DataWylotu { get => dataWylotu; set
+
+        public DateTime DataWylotu
+        {
+            get => dataWylotu; set
             {
                 if (value < DateTime.Now)
                     throw new BlednaDataLotuException("Data lotu musi być w przyszłości!");
@@ -61,7 +69,7 @@ namespace SystemBiletowLotniczych
         [XmlIgnore]    //dajemy to bo XML nie umie ladnie wczytac TimeOnly
         [NotMapped]   // nie uwzgledniamy do BazyDanych
         public TimeOnly GodzinaWylotu { get => godzinaWylotu; set => godzinaWylotu = value; }
-        
+
         [XmlElement("GodzinaWylotu")]   // wlasciwosc bedzie "udawac" nasza godzine
         [NotMapped]
         public string GodzinaWylotu2
@@ -72,7 +80,7 @@ namespace SystemBiletowLotniczych
 
         public double Cena { get => cena; set => cena = value; }
         public EnumKlasa Klasa { get => klasa; set => klasa = value; }
-        public DateTime DataRezerwacji { get => dataRezerwacji; set => dataRezerwacji = value; }                    
+        public DateTime DataRezerwacji { get => dataRezerwacji; set => dataRezerwacji = value; }
 
         public string MiastoWylotu
         {
@@ -83,7 +91,7 @@ namespace SystemBiletowLotniczych
                 miastoWylotu = value;
             }
         }
-        
+
         public string MiastoPrzylotu
         {
             get => miastoPrzylotu;
@@ -93,9 +101,9 @@ namespace SystemBiletowLotniczych
                 miastoPrzylotu = value;
             }
         }
-        
 
-        public string NumerLotu {
+        public string NumerLotu
+        {
             get
             {
                 return $"{MiastoWylotu.Substring(0, 3).ToUpper()}-" +
@@ -108,28 +116,29 @@ namespace SystemBiletowLotniczych
 
         public int NumerMiejsca { get => numerMiejsca; set => numerMiejsca = value; }
 
-
-
-
-
+        /// <summary>
+        /// Konstruktor domyślny biletu.
+        /// </summary>
         public Bilet()
         {
             ImiePasazera = string.Empty;
             NazwiskoPasazera = string.Empty;
-            Cena = 0;           
+            Cena = 0;
             GodzinaWylotu = TimeOnly.FromDateTime(DateTime.Now);
             Klasa = EnumKlasa.Ekonomiczna;
             DataRezerwacji = DateTime.Now;
             miastoPrzylotu = string.Empty;
             miastoWylotu = "Kraków";
-
         }
 
-       public Bilet( string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu, string miastoWylotu)
+        /// <summary>
+        /// Konstruktor tworzący bilet na podstawie pełnych danych lotu i pasażera.
+        /// </summary>
+        public Bilet(string imiePasazera, string nazwiskoPasazera, double cena, DateTime dataWylotu, TimeOnly godzinaWylotu, EnumKlasa klasa, string miastoPrzylotu, string miastoWylotu)
         {
             ImiePasazera = imiePasazera;
             NazwiskoPasazera = nazwiskoPasazera;
-            Cena = cena;          
+            Cena = cena;
             DataWylotu = dataWylotu;
             GodzinaWylotu = godzinaWylotu;
             Klasa = klasa;
@@ -152,12 +161,13 @@ namespace SystemBiletowLotniczych
             doListyBiletow(this);
         }
 
-               public string PelnyNumerBiletu => $"{NumerLotu}-{NumerMiejsca:D3}";
-
-
-
+        public string PelnyNumerBiletu => $"{NumerLotu}-{NumerMiejsca:D3}";
 
         #region MetodyWirtualne
+
+        /// <summary>
+        /// Oblicza mnożnik sezonowy na podstawie daty wylotu.
+        /// </summary>
         public virtual double MnoznikSezonowy()
         {
             double mnoznik = 1.0;
@@ -166,14 +176,17 @@ namespace SystemBiletowLotniczych
             if (miesiac == 7 || miesiac == 8) mnoznik = 1.5;
             else if (miesiac == 12)
             {
-                if (dzien >= 23 && dzien <= 26) mnoznik = 1.8; 
-                else if (dzien == 22 || dzien == 27) mnoznik = 1.3; 
-                else if (dzien == 31) mnoznik = 1.6; 
+                if (dzien >= 23 && dzien <= 26) mnoznik = 1.8;
+                else if (dzien == 22 || dzien == 27) mnoznik = 1.3;
+                else if (dzien == 31) mnoznik = 1.6;
             }
 
             return mnoznik;
         }
 
+        /// <summary>
+        /// Zwraca mnożnik ceny zależny od klasy lotu.
+        /// </summary>
         public virtual double MnoznikKlasy()
         {
             return klasa switch
@@ -185,13 +198,19 @@ namespace SystemBiletowLotniczych
             };
         }
 
+        /// <summary>
+        /// Oblicza końcową cenę biletu.
+        /// </summary>
         public virtual double ObliczCeneKoncowa()
         {
-            return cena* MnoznikKlasy() * MnoznikSezonowy() ;
+            return cena * MnoznikKlasy() * MnoznikSezonowy();
         }
 
         #endregion MetodyWirtualne
 
+        /// <summary>
+        /// Zwraca tekstową reprezentację biletu.
+        /// </summary>
         public override string ToString()
         {
             return $"Numer biletu: {PelnyNumerBiletu}\n" +
@@ -209,6 +228,9 @@ namespace SystemBiletowLotniczych
                    $"Cena Biletu: {ObliczCeneKoncowa():C}\n";
         }
 
+        /// <summary>
+        /// Porównuje bilety na podstawie ceny końcowej.
+        /// </summary>
         public int CompareTo(Bilet? other)
         {
             if (other == null)
@@ -216,17 +238,26 @@ namespace SystemBiletowLotniczych
             return this.ObliczCeneKoncowa().CompareTo(other.ObliczCeneKoncowa());
         }
 
+        /// <summary>
+        /// Sprawdza równość biletów na podstawie pełnego numeru biletu.
+        /// </summary>
         public bool Equals(Bilet? other)
         {
             if (other == null) return false;
             return this.PelnyNumerBiletu == other.PelnyNumerBiletu;                      //uwaga Emilia zmieniam NumerLotu na PelnyNumerBiletu
         }
 
+        /// <summary>
+        /// Tworzy płytką kopię biletu.
+        /// </summary>
         public object Clone()
         {
             return this.MemberwiseClone();
         }
 
+        /// <summary>
+        /// Klonuje bilet, przypisując nowego pasażera i numer miejsca.
+        /// </summary>
         public Bilet CloneZNowaGodnoscia(string klonImie, string klonNazwisko)
         {
             Bilet klon = (Bilet)this.Clone();   //rzutowanie na bilet bo CLone zwraca object
@@ -248,11 +279,17 @@ namespace SystemBiletowLotniczych
             return klon;
         }
 
+        /// <summary>
+        /// Dodaje bilet do listy zakupionych biletów.
+        /// </summary>
         public void doListyBiletow(Bilet b)
         {
             kupioneBilety.Add(b);
         }
 
+        /// <summary>
+        /// Wyświetla wszystkie zakupione bilety w konsoli.
+        /// </summary>
         public static void wyswietlKupioneBilety()
         {
             Console.WriteLine("Lista sprzedanych biletów:\n===============================================\n");
@@ -261,13 +298,16 @@ namespace SystemBiletowLotniczych
                 Console.WriteLine("Brak sprzedanych biletów");
                 return;
             }
-            foreach(Bilet b in kupioneBilety)
+            foreach (Bilet b in kupioneBilety)
             {
                 Console.WriteLine(b.ToString());
                 Console.WriteLine("\n-----------------------------------------------");
             }
         }
 
+        /// <summary>
+        /// Zapisuje listę biletów do pliku XML.
+        /// </summary>
         public static void ZapisXML(string nazwa, List<Bilet> kupioneBilety)     //XmlSerializer zapisuje rzeczy ktore sa Publiczna wlasciwoscia co ma Get i Set
         {
             try
@@ -281,11 +321,11 @@ namespace SystemBiletowLotniczych
             {
                 Console.WriteLine($"Błąd przy zapisie: {e.Message}");
             }
-
-
-            
         }
 
+        /// <summary>
+        /// Odczytuje listę biletów z pliku XML.
+        /// </summary>
         public static List<Bilet> OdczytajXML(string nazwa)
         {
             List<Bilet> odczytany = new List<Bilet>();
@@ -297,7 +337,6 @@ namespace SystemBiletowLotniczych
                 tr.Close();
 
                 AktualizacjaZOdczytu(odczytany);
-
                 return odczytany;
             }
             catch (FileNotFoundException)
@@ -307,14 +346,17 @@ namespace SystemBiletowLotniczych
             }
         }
 
+        /// <summary>
+        /// Aktualizuje liczniki miejsc oraz listę biletów po odczycie z XML.
+        /// </summary>
         public static void AktualizacjaZOdczytu(List<Bilet> odczytany)    //dajemy static zeby mozna bylo wywolac nawet bez zadnej instacji biletu w main
         {
             kupioneBilety.Clear();
             licznikiMiejsc.Clear();
 
-            if(odczytany ==  null) {return; }
+            if (odczytany == null) { return; }
 
-            foreach(Bilet b in  odczytany)
+            foreach (Bilet b in odczytany)
             {
                 kupioneBilety.Add(b);
 
@@ -322,11 +364,11 @@ namespace SystemBiletowLotniczych
 
                 if (!licznikiMiejsc.ContainsKey(kluczLotu))
                 {
-                    licznikiMiejsc[kluczLotu] = b.NumerMiejsca;            
+                    licznikiMiejsc[kluczLotu] = b.NumerMiejsca;
                 }
                 else
                 {
-                    if(b.NumerMiejsca > licznikiMiejsc[kluczLotu])    //jezeli by w slowniku cos juz bylo 
+                    if (b.NumerMiejsca > licznikiMiejsc[kluczLotu])    //jezeli by w slowniku cos juz bylo 
                     {
                         licznikiMiejsc[kluczLotu] = b.NumerMiejsca;
                     }
@@ -338,6 +380,9 @@ namespace SystemBiletowLotniczych
             }
         }
 
+        /// <summary>
+        /// Zapisuje bilet do bazy danych.
+        /// </summary>
         public void SaveToDB()
         {
             using (var db = new BiletDbContext())
@@ -347,23 +392,27 @@ namespace SystemBiletowLotniczych
             }
         }
 
-
-
+        /// <summary>
+        /// Delegat reprezentujący funkcję obliczającą zniżkę.
+        /// </summary>
         public delegate double DelegatZnizka(double jakasZnizka);    // przyjmuje double i zwracam double (kazda metoda ktora tu przyjme ma miec taki ksztalt)
 
+        /// <summary>
+        /// Zastosowuje rabat do ceny biletu przy użyciu delegata.
+        /// </summary>
         public void ZastosujRabat(DelegatZnizka przyznanieZnizki)   //to przyznanieZnizki to nasza metoda konkretna
         {
             this.Cena = przyznanieZnizki(this.Cena);
         }
-                    //np takie byloby wywolanie    produkt.ZastosujRabat(Znizki.Student);
+        //np takie byloby wywolanie    produkt.ZastosujRabat(Znizki.Student);
     }
 
+    /// <summary>
+    /// Klasa statyczna zawierająca dostępne zniżki.
+    /// </summary>
     public static class Znizki           //robie sobie statyczna zeby nie tworzyc obiektu a latwo wziac sobie wzor                             
     {
         public static double Student(double c) => c * 0.5;
         public static double Senior(double c) => c * 0.7;
     }
-
-
-
 }
