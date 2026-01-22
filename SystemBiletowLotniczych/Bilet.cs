@@ -16,7 +16,7 @@ namespace SystemBiletowLotniczych
     /// Abstrakcyjna klasa bazowa reprezentująca bilet lotniczy.
     /// Zawiera wspólną logikę dla wszystkich typów biletów.
     /// </summary>
-    [XmlInclude(typeof(BiletKrajowy))]                //do mechanizmu XML - klasa bazowa moze przyjmowac postac konkretnej klasy pochodnej -- i nasza lista ma rozne obiekty 
+    [XmlInclude(typeof(BiletKrajowy))]                 
     [XmlInclude(typeof(BiletMiedzykontynentalny))]
     [XmlInclude(typeof(BiletMiedzykrajowy))]
     [XmlInclude(typeof(BiletZPrzesiadkami))]
@@ -36,7 +36,7 @@ namespace SystemBiletowLotniczych
         private int numerMiejsca;
         private static int MAX_MIEJSC = 180;
 
-        public static List<Bilet> kupioneBilety = new List<Bilet>();     //mamy polimorfizm wiec lista "zbiera" wszystkie bilety dziedziczace po bilet
+        public static List<Bilet> kupioneBilety = new List<Bilet>();     
 
         [XmlIgnore]
         [NotMapped]
@@ -49,7 +49,7 @@ namespace SystemBiletowLotniczych
             get => DataWylotu.Date + GodzinaWylotu.ToTimeSpan();
         }
 
-        //entity framework robi kolumne dla kazdej publicznej wlasciwosci ktora ma get i set
+   
         [Key]
         public int BiletId { get; set; }
 
@@ -66,16 +66,16 @@ namespace SystemBiletowLotniczych
             }
         }
 
-        [XmlIgnore]    //dajemy to bo XML nie umie ladnie wczytac TimeOnly
-        [NotMapped]   // nie uwzgledniamy do BazyDanych
+        [XmlIgnore]    
+        [NotMapped]   
         public TimeOnly GodzinaWylotu { get => godzinaWylotu; set => godzinaWylotu = value; }
 
-        [XmlElement("GodzinaWylotu")]   // wlasciwosc bedzie "udawac" nasza godzine
+        [XmlElement("GodzinaWylotu")]   
         [NotMapped]
         public string GodzinaWylotu2
         {
             get => godzinaWylotu.ToString("HH:mm");
-            set => godzinaWylotu = TimeOnly.Parse(value);  //z powrotem na czas
+            set => godzinaWylotu = TimeOnly.Parse(value);  
         }
 
         public double Cena { get => cena; set => cena = value; }
@@ -244,7 +244,7 @@ namespace SystemBiletowLotniczych
         public bool Equals(Bilet? other)
         {
             if (other == null) return false;
-            return this.PelnyNumerBiletu == other.PelnyNumerBiletu;                      //uwaga Emilia zmieniam NumerLotu na PelnyNumerBiletu
+            return this.PelnyNumerBiletu == other.PelnyNumerBiletu;                      
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace SystemBiletowLotniczych
         /// </summary>
         public Bilet CloneZNowaGodnoscia(string klonImie, string klonNazwisko)
         {
-            Bilet klon = (Bilet)this.Clone();   //rzutowanie na bilet bo CLone zwraca object
+            Bilet klon = (Bilet)this.Clone();   
 
             klon.ImiePasazera = klonImie;
             klon.NazwiskoPasazera = klonNazwisko;
@@ -308,7 +308,7 @@ namespace SystemBiletowLotniczych
         /// <summary>
         /// Zapisuje listę biletów do pliku XML.
         /// </summary>
-        public static void ZapisXML(string nazwa, List<Bilet> kupioneBilety)     //XmlSerializer zapisuje rzeczy ktore sa Publiczna wlasciwoscia co ma Get i Set
+        public static void ZapisXML(string nazwa, List<Bilet> kupioneBilety)     
         {
             try
             {
@@ -349,7 +349,7 @@ namespace SystemBiletowLotniczych
         /// <summary>
         /// Aktualizuje liczniki miejsc oraz listę biletów po odczycie z XML.
         /// </summary>
-        public static void AktualizacjaZOdczytu(List<Bilet> odczytany)    //dajemy static zeby mozna bylo wywolac nawet bez zadnej instacji biletu w main
+        public static void AktualizacjaZOdczytu(List<Bilet> odczytany)    
         {
             kupioneBilety.Clear();
             licznikiMiejsc.Clear();
@@ -368,7 +368,7 @@ namespace SystemBiletowLotniczych
                 }
                 else
                 {
-                    if (b.NumerMiejsca > licznikiMiejsc[kluczLotu])    //jezeli by w slowniku cos juz bylo 
+                    if (b.NumerMiejsca > licznikiMiejsc[kluczLotu])     
                     {
                         licznikiMiejsc[kluczLotu] = b.NumerMiejsca;
                     }
@@ -395,22 +395,22 @@ namespace SystemBiletowLotniczych
         /// <summary>
         /// Delegat reprezentujący funkcję obliczającą zniżkę.
         /// </summary>
-        public delegate double DelegatZnizka(double jakasZnizka);    // przyjmuje double i zwracam double (kazda metoda ktora tu przyjme ma miec taki ksztalt)
+        public delegate double DelegatZnizka(double jakasZnizka);    
 
         /// <summary>
         /// Zastosowuje rabat do ceny biletu przy użyciu delegata.
         /// </summary>
-        public void ZastosujRabat(DelegatZnizka przyznanieZnizki)   //to przyznanieZnizki to nasza metoda konkretna
+        public void ZastosujRabat(DelegatZnizka przyznanieZnizki)   
         {
             this.Cena = przyznanieZnizki(this.Cena);
         }
-        //np takie byloby wywolanie    produkt.ZastosujRabat(Znizki.Student);
+       
     }
 
     /// <summary>
     /// Klasa statyczna zawierająca dostępne zniżki.
     /// </summary>
-    public static class Znizki           //robie sobie statyczna zeby nie tworzyc obiektu a latwo wziac sobie wzor                             
+    public static class Znizki                                       
     {
         public static double Student(double c) => c * 0.5;
         public static double Senior(double c) => c * 0.7;

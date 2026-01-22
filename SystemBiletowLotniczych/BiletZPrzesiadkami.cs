@@ -6,6 +6,10 @@ using System.Text;
 namespace SystemBiletowLotniczych
 {
     [NotMapped]
+
+    /// <summary>
+    /// Reprezentuje typ biletu obsługujący podróże wieloetapowe
+    /// </summary>
     public class BiletZPrzesiadkami : Bilet
     {
         private List<Bilet> EtapyPodrozy;
@@ -19,10 +23,13 @@ namespace SystemBiletowLotniczych
         public BiletZPrzesiadkami() : base()
         {
             EtapyPodrozy = new List<Bilet>();
-        } 
+        }
+        /// <summary>
+        /// Oblicza cene koncowa biletu z przesiadkami, z uwzglednieniem zniżki.
+        /// </summary>
+        /// <returns> Cena końcowa biletu.</returns>
 
-     
-            public override double ObliczCeneKoncowa()
+        public override double ObliczCeneKoncowa()
             {
                 double suma = 0;
                 foreach (var bilet in EtapyPodrozy)
@@ -33,7 +40,11 @@ namespace SystemBiletowLotniczych
                 return suma * (1 - znizka);
             }
 
-            public string GenerujNumerTrasy()
+        /// <summary>
+        /// Generuje numer trasy na podstawie numerów lotów w etapach podróży.
+        /// </summary>
+        /// <returns> Numer trasy. </returns>
+        public string GenerujNumerTrasy()
             {
                 if (EtapyPodrozy.Count == 0) return "BRAK-LOTOW";
 
